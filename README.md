@@ -16,6 +16,7 @@ will help you along.
 ## Requirements
 To use Handyplex you'll need the following:
 Software:
+
 * Mac OS X Snow Leopard (other platforms might work, depending on
   OpenNI/Nite support)
 * Python 2.7
