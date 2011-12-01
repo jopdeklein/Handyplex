@@ -40,7 +40,6 @@ Make sure Python 2.7 (or later) is installed correctly. I recommend
         $ pip install -r requirements.txt
 
    See [pip](http://www.pip-installer.org/en/latest/index.html) for more information.
-
 1. (Optional) install [wxPython](http://www.wxpython.org/) to play sounds when users are detected/lost.
 
 ## Configuring
