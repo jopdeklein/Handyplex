@@ -27,7 +27,7 @@ from gesturedetector.holddetector import HoldDetector
 from plexcontroller.plexcontroller import PlexController
 
 
-has_audio_support = False # flag whether wx is available
+has_audio_support = False # whether wxPython is available
 
 try:
     import wx
@@ -36,14 +36,11 @@ except ImportError:
     pass
 
 last_message = ''
-
 def print_once(msg):
     """
     Simple helper function for printing a message only once, handy for use in
     the main_loop.
     """
-    global last_message
-
     if last_message != msg:
         last_message = msg
         print msg
@@ -61,7 +58,6 @@ class Handyplex:
         """
         print "Initializing..."
         self.server = OSCeleton(7110)
-        # self.server.realWorld = True
         self.frame_count = 0
         """List of users / hands, currently only supporting one concurrently"""
         self.users = {}
@@ -96,14 +92,53 @@ class Handyplex:
         self.repeat_count = 0
 
         self._set_state('wait_for_hold')
+
         print 'Done initializing'
         while True:
             self._main_loop()
 
+    def _main_loop(self):
+        """
+        Poll the OSCeleton server for frames. Detects new/lost user and relays
+        Kinect hand data to appropriate GestureDetector based on current
+        application state.
+        """
+        is_ok = self.server.run()
+        if not is_ok:
+            self._lost_user()
+
+        if self.server.frames > self.frame_count:
+
+            for user in self.server.get_new_skeletons():
+                if user.id not in self.users:
+                    self._new_user(user)
+
+                l_hand = user[LEFT_HAND]
+                if l_hand:
+                    if self.state == 'wait_for_hold':
+                        print_once('waiting for hold...')
+                        self.hd.move(l_hand)
+                    elif self.state == 'wait_for_gesture':
+                        print_once('detecting gesture...')
+                        move_ok = self.sd.move(l_hand)
+                        if not move_ok:
+                            self._set_state('wait_for_hold')
+                    elif self.state == 'wait_for_repeat':
+                        print_once('waiting for repeat...')
+                        move_ok = self.md.move(l_hand)
+
+                        if move_ok == False:
+                            print_once('repeat cancelled')
+                            self.repeat_frame_count = 0
+                            self._set_state('wait_for_hold')
+
+            self.frame_count += 1
+            return True
+
     def _gesture_detected(self, gesture, last_point):
         """
         Sends gesture command to PlexController and prepares for repeat
-        gesture if on x or y axis.
+        gesture if gesture was performed on x or y axis.
         """
         print 'gesture detected: %s' % (gesture)
         self.pc.perform_gesture_action(gesture)
@@ -170,12 +205,6 @@ class Handyplex:
             self.pc.perform_gesture_action(self.last_gesture)
             self.repeat_count = 0
 
-    def _play_sound(self, sound_path):
-        global has_audio_support
-        if has_audio_support:
-            sound = wx.Sound(sound_path)
-            sound.Play(wx.SOUND_SYNC)
-
     def _new_user(self, user):
         print 'new user detected: %s' % (user.id)
         self.users[user.id] = Skeleton(user.id)
@@ -205,50 +234,15 @@ class Handyplex:
         elif state == 'wait_for_repeat':
             self.md.reset(direction)
 
-
-    def _main_loop(self):
-        """
-        Poll the OSCeleton server for frames. Detects new/lost user and relays
-        Kinect hand data to appropriate GestureDetector based on current
-        application state.
-        """
-        is_ok = self.server.run()
-        if not is_ok:
-            self._lost_user()
-
-        if self.server.frames > self.frame_count:
-
-            for user in self.server.get_new_skeletons():
-                if user.id not in self.users:
-                    self._new_user(user)
-
-                l_hand = user[LEFT_HAND]
-                if l_hand:
-                    if self.state == 'wait_for_hold':
-                        print_once('waiting for hold...')
-                        self.hd.move(l_hand)
-                    elif self.state == 'wait_for_gesture':
-                        print_once('detecting gesture...')
-                        move_ok = self.sd.move(l_hand)
-                        if not move_ok:
-                            self._set_state('wait_for_hold')
-                    elif self.state == 'wait_for_repeat':
-                        print_once('waiting for repeat...')
-                        move_ok = self.md.move(l_hand)
-
-                        if move_ok == False:
-                            print_once('repeat cancelled')
-                            self.repeat_frame_count = 0
-                            self._set_state('wait_for_hold')
-
-            self.frame_count += 1
-            return True
+    def _play_sound(self, sound_path):
+        if has_audio_support:
+            sound = wx.Sound(sound_path)
+            sound.Play(wx.SOUND_SYNC)
 
 
 def main(argv):
     if has_audio_support:
-        # TODO do we need to save reference to app?
-        app = wx.PySimpleApp()
+        wx.PySimpleApp()
 
     p = Handyplex(settings.PLEX_SERVER_IP, settings.PLEX_CLIENT_NAME)
 

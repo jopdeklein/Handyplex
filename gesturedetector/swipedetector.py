@@ -25,7 +25,8 @@ from gesturedetector import GestureDetector, GESTURES
 
 class SwipeDetector(GestureDetector):
     """
-    Detect basic swipe gestures in all directions.
+    Detect basic swipe gestures in any direction (right/left/up/down and
+    push/pull).
     """
     def _detect_gesture(self):
         start = self.cache[0]

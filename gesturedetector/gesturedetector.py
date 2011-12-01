@@ -36,12 +36,11 @@ GESTURES = {
 
 class GestureDetector(object):
     """
-    Abstract GestureDetector, provides basic mechanisms for keeping tracking of 
+    Abstract GestureDetector, provides basic mechanisms for keeping tracking of
     movements and detecting movement orientation.
 
     Subclasses should provide a _detect_gesture method.
     """
-
     # TODO make configurable
     min_frame_count = 10
     max_frame_count = 150
@@ -57,17 +56,20 @@ class GestureDetector(object):
         self.cache = []  # list of recorded points
 
     def move(self, point):
-        """Store movement point data and attempt to detect gesture."""
+        """
+        Store movement point data and attempt to detect gesture (performed
+        by subclasses).
+        """
         self.cache.append(point)
         return self._detect_gesture()
-
-    def reset(self):
-        """Reinitializes movement point data"""
-        self.cache = []
 
     def _detect_gesture(self):
         """Needs to be provided by subclasses"""
         pass
+
+    def reset(self):
+        """Reinitializes movement point data"""
+        self.cache = []
 
     def _get_major_axis(self, x, y, z):
         """Determine on which axis movement is taking place"""

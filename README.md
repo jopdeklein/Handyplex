@@ -11,7 +11,7 @@ are cross-platform, it should run on other platforms too.
 
 Due to the experimental state of Handyplex one needs to be adept with the command
 line to build and install dependencies, but hopefully the following instructions
-will be enough to help you along.
+will help you along.
 
 ## Requirements
 To use Handyplex you'll need the following:
@@ -23,39 +23,36 @@ Software:
 - OSCeleton and it's dependencies
 
 Hardware:
-- Microsoft Kinect Hardware
+- Microsoft Xbox Kinect Camera
 
 ## Installing
 Make sure Python 2.7 (or later) is installed correctly. I recommend
-[virtualenv](http://pypi.python.org/pypi/virtualenv) and
-[pip](http://www.pip-installer.org) to set up your Python environments.
+[virtualenv](http://pypi.python.org/pypi/virtualenv) and [pip](http://www.pip-installer.org) to set up your Python environments.
 
 
-1. Install OSCeleton and follow the instructions to install the OpenNI/NITE 
-   dependencies: [OSCeleton github page](https://github.com/Sensebloom/OSCeleton)
+1. Install OSCeleton and follow the instructions to install the OpenNI/NITE
+   dependencies: [OSCeleton](https://github.com/Sensebloom/OSCeleton)
 1. Clone Handyplex
 1. Install Handyplex's Python dependencies. The easiest way to do this
    is to use pip with the supplied requirements.txt:
 
         $ pip install -r requirements.txt
 
-   See [pip](http://www.pip-installer.org/en/latest/index.html) for more
-   information.
+   See [pip](http://www.pip-installer.org/en/latest/index.html) for more information.
 
-1. (Optional) install [wxPython](http://www.wxpython.org/) to play sounds when
-   users are detected/lost.
+1. (Optional) install [wxPython](http://www.wxpython.org/) to play sounds when users are detected/lost.
 
 ## Configuring
-Handyplex needs to know the IP where your Plex Media Server is running,
-as well as the computer name of the client.
+Handyplex needs to know the IP where Plex Media Server is running, as well as
+the name of the computer on which the Plex client is running.
 Edit the following lines of settings.py accordingly:
 
     PLEX_SERVER_IP = '10.0.1.1'
-    PLEX_CLIENT_NAME = 'computername'
+    PLEX_CLIENT_NAME = 'mini.local'
 
 
 ## Using Handyplex
-Make sure plex is running, and the Kinect is connected via USB and is
+Make sure Plex is running, and the Kinect is connected via USB and is
 receiving power.
 1. Run OSCeleton in 'hand mode':
 
@@ -81,13 +78,14 @@ somebody.
 
 #### Hold Gesture
 Hold gestures are necessary to determine the start point for further
-gesture recognition. Simply hold your hand in one place for a while.
+gesture recognition. Simply hold your hand in one place for a short
+amount of time.
 
 #### Swipe Gestures
-Swipe gestures are best recognized if done in a short motion, either
+Swipe gestures are best recognized if performed in a short motion, either
 left, right, up, down, forwards or backwards. To implement a flick,
 perform a swipe gesture and quickly move your hand back to the starting
-position. 
+position.
 
 #### Repeating Swipe Gestures
 If you 'hold' a gesture after it has been detected it
@@ -96,7 +94,7 @@ last detected action. Repeat actions can be accelerated/decelerated by
 moving your hand further away or closer to the gesture recognition
 point. Only movements in the same direction as the original gesture are
 considered to be repeat movements, moving your hand too far off the
-original part cancels the repeat action.
+original axis cancels the repeat action.
 
 #### Fine-tuning
 If you feel gesture recognition isn't working as smoothly as in the
@@ -125,11 +123,13 @@ functionality (run in tests directory):
   for more flexibility.
 * Use NITE's gesture recognition instead of the current Python
   implementation.
-* Support multi-hand gestures.
+* Support for multi-hand gestures.
 
-## Forking/Patching
-
-## Communication
+## Feedback
+All feedback is very welcome.
 Please use the github issue tracker to report issues, and the
 [Plex forums](http://forums.plexapp.com/index.php/topic/33696-proof-of-concept-plex-with-kinect/)
 for feedback / discussion.
+
+The source code of Handyplex is available on Github:
+https://github.com/jopdeklein/Handyplex

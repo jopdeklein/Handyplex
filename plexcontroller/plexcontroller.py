@@ -41,14 +41,14 @@ class PlexController:
             self._detect_mode()
         except EnvironmentError:
             print ("FATAL ERROR: Could not connect to Plex, make sure Plex "
-                   "Media Server and Plex Client are running. Verify settings "
-                   "in settings.py.")
+                   "Media Server and Plex Client are running. Verify that "
+                   "settings in settings.py are correct.")
             sys.exit(1)
 
     def perform_gesture_action(self, gesture):
         """
         Send appropriate command for the gesture, depending on whether Plex is
-        playing media or user is navigating menu's.
+        playing media or is navigating menus.
         """
         self._detect_mode()
 
@@ -83,6 +83,27 @@ class PlexController:
             elif gesture == GESTURES['PULL']:
                 self._send_playback_command('stop')
 
+    def _detect_mode(self):
+        """
+        Detect whether Plex is playing media, or is in navigation mode.
+        """
+        # TODO: find a more sustainable way of detecting mode
+        path = '/xbmcCmds/xbmcHttp?command=GetCurrentlyPlaying'
+
+        conn = httplib.HTTPConnection(self.server + ':' + str(self.xmbc_port))
+        conn.request('GET', path)
+        response = conn.getresponse().read()
+
+        if response == '' or re.search(
+                'Filename:\[Nothing Playing\]', response):
+            self.mode = 'nav'
+        else:
+            self.mode = 'play'
+            if re.search('PlayStatus:Playing', response):
+                self.is_playing = True
+            elif re.search('PlayStatus:Paused', response):
+                self.is_playing = False
+
     def _send_navigation_command(self, command):
         self._send_command('navigation', command)
 
@@ -105,23 +126,3 @@ class PlexController:
         conn.request('GET', path)
         conn.getresponse()
 
-    def _detect_mode(self):
-        """
-        Detect whether Plex is playing media, or is in navigation mode.
-        """
-        # TODO: find a more sustainable way of detecting mode
-        path = '/xbmcCmds/xbmcHttp?command=GetCurrentlyPlaying'
-
-        conn = httplib.HTTPConnection(self.server + ':' + str(self.xmbc_port))
-        conn.request('GET', path)
-        response = conn.getresponse().read()
-
-        if response == '' or re.search(
-                'Filename:\[Nothing Playing\]', response):
-            self.mode = 'nav'
-        else:
-            self.mode = 'play'
-            if re.search('PlayStatus:Playing', response):
-                self.is_playing = True
-            elif re.search('PlayStatus:Paused', response):
-                self.is_playing = False

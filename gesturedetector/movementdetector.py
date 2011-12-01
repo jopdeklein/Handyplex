@@ -26,9 +26,9 @@ from gesturedetector import GestureDetector
 
 class MovementDetector(GestureDetector):
     """
-    Detect whether user is moving hand and calculates distance between
-    start and end points. Optionally restricts movement in one direction, for
-    example when detecting a gesture repeat action.
+    Detect whether user is moving hand and calculate distance between
+    start and end points. Optionally restrict movement in one direction, used
+    when detecting a gesture repeat action.
     """
     def __init__(self, gesture_callback, threshold_x=50, threshold_y=50,
             threshold_z=50, restrict_movement_direction=None,
