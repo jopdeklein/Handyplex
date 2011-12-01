@@ -41,6 +41,7 @@ def print_once(msg):
     Simple helper function for printing a message only once, handy for use in
     the main_loop.
     """
+    global last_message
     if last_message != msg:
         last_message = msg
         print msg
