@@ -1,2 +1,3 @@
 pyOSC==0.3.5b-5294
+-e git+https://jopdeklein@github.com/jopdeklein/pyOSCeleton.git@30475049702834a476afe19f99925627126cde47#egg=pyOSCeleton-dev
 wsgiref==0.1.2
