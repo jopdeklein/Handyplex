@@ -16,14 +16,14 @@ will help you along.
 ## Requirements
 To use Handyplex you'll need the following:
 Software:
-- Mac OS X Snow Leopard (other platforms might work, depending on
+* Mac OS X Snow Leopard (other platforms might work, depending on
   OpenNI/Nite support)
-- Python 2.7
-- Plex (tested with 0.9.3.4)
-- OSCeleton and it's dependencies
+* Python 2.7
+* Plex (tested with 0.9.3.4)
+* OSCeleton and it's dependencies
 
 Hardware:
-- Microsoft Xbox Kinect Camera
+* Microsoft Xbox Kinect Camera
 
 ## Installing
 Make sure Python 2.7 (or later) is installed correctly. I recommend
@@ -54,6 +54,7 @@ Edit the following lines of settings.py accordingly:
 ## Using Handyplex
 Make sure Plex is running, and the Kinect is connected via USB and is
 receiving power.
+
 1. Run OSCeleton in 'hand mode':
 
         $ ./osceleton -n -f
