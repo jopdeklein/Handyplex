@@ -19,7 +19,6 @@
 """
 
 import sys
-# sys.path.append('../gesturedetector')
 from gesturedetector.swipedetector import GESTURES
 import httplib
 import re
@@ -38,7 +37,13 @@ class PlexController:
         self.client = client
         self.mode = 'nav'
         self.is_playing = False
-        self._detect_mode()
+        try:
+            self._detect_mode()
+        except EnvironmentError:
+            print ("FATAL ERROR: Could not connect to Plex, make sure Plex "
+                   "Media Server and Plex Client are running. Verify settings "
+                   "in settings.py.")
+            sys.exit(1)
 
     def perform_gesture_action(self, gesture):
         """

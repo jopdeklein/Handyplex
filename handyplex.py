@@ -52,14 +52,13 @@ def print_once(msg):
 class Handyplex:
     """
     Retrieve Kinect info via OSCeleton, detecting user's hands and
-    subsequently recognize gestures and sending commands to Plex.
+    subsequently recognize gestures and send commands to Plex.
     """
     def __init__(self, plex_server, plex_client):
         """
         Establish OSCeleton connection and initialize PlexController and
         Gesture Detectors.
         """
-
         print "Initializing..."
         self.server = OSCeleton(7110)
         # self.server.realWorld = True
@@ -70,6 +69,8 @@ class Handyplex:
         # FIXME: check IP/Client
         self.pc = PlexController(plex_server, plex_client)
 
+        # Set up GestureDetector instances. Since we currently support one
+        # hand / user at a time we can initialize all at once.
         gt = settings.THRESHOLDS['GESTURE']
         self.sd = SwipeDetector(self._gesture_detected,
             threshold_x=gt['x'],
