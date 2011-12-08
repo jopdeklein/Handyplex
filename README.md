@@ -27,6 +27,9 @@ Hardware:
 * Microsoft Xbox Kinect Camera
 
 ## Installing
+The following is an abridged version of the installation instructions,
+see the supplied INSTALL file for step-by-step instructions.
+
 Make sure Python 2.7 (or later) is installed correctly. I recommend
 [virtualenv](http://pypi.python.org/pypi/virtualenv) and [pip](http://www.pip-installer.org) to set up your Python environments.
 

@@ -1,0 +1,91 @@
+# Installing Handyplex
+
+Although a bit daunting looking at first, fortunately my experience with
+installing the drivers and middleware have been good - everything worked out of
+the box on my Snow Leopard machine. The following are the steps I took to get 
+it working on Mac OS X Snow Leopard, but in theory it should work on Lion as well.
+
+For each of the following required projects I assume you will clone them in a
+directory, eg: ~/Kinect and build them from source from the directory you
+cloned them in.
+* OpenKinect Drivers
+* OpenNI Framework
+* NITE Middleware
+* OSCeleton
+
+## Installing Drivers and Middleware
+The drivers are used to transfer the Kinect to your computer, and the raw data
+is translated to skeleton/hand objects via the middleware.
+
+I used the installation instructions as specified in the OpenKinect README:
+https://github.com/avin2/SensorKinect, here's a recap of the steps I took to
+get it working:
+
+* Install the OpenNI framework (unstable version): http://www.openni.org/Downloads/OpenNIModules.aspx
+
+    $ sudo ./install.sh
+
+* Install the OpenKinect Drivers: https://github.com/avin2/SensorKinect.
+    1. Go into the directory "Platform/Linux-x86/CreateRedist" and run the script:
+
+        $ ./RedistMaker
+
+    2. Go into the directory "Platform/Linux-x86/Redist" and run the script:
+
+        $ sudo ./install.sh
+
+* Install the latest LibUSB (easiest via MacPorts):
+    1. Install MacPorts: http://www.macports.org/install.php
+    2. $ sudo port install libtool
+    3. $ sudo port install libusb-devel +universal
+       Note: Do not forget the +universal, it's very important!!
+       If you're previously already installed libusb-devel then use "sudo port
+       uninstall libusb-devel" and reinstall it again with the +universal flag.
+
+* Install NITE: http://www.openni.org/downloadfiles/opennimodules/openni-compliant-middleware-binaries/33-latest-unstable
+
+    $ sudo ./install.sh
+
+    You'll need a product key, the following has worked for me and others:
+    0KOIk2JeIBYClPWVnMoRKn5cdY4=
+
+
+## Installing OSCeleton
+OSCeleton transfers the skeleton/hand objects via the OSC Protocol, which in
+turn will be picked up by Handyplex.
+
+Install OSCeleton: https://github.com/Sensebloom/OSCeleton
+
+     $ ./make
+
+Now we're almost there, you might want to run OSCeleton in window mode to test
+whether the drivers and middleware have been installed correctly. You should
+see a window with the video feed transferred from the Kinect:
+
+    $ ./OSCeleton -w
+
+
+## Installing Handyplex
+Handyplex receives the hand data via the OSC protocol, for which a couple of
+dependencies are needed (defined in requirements.txt).
+You can either install these by hand, or use pip to install them based on the
+requirements.txt (recommended) - see http://www.pip-installer.org
+
+Assuming pip is installed you can install the dependencies:
+
+    $ pip install -r requirements.txt
+
+If all went well you should now be able to use Handyplex.
+
+(Optional) Install [wxPython](http://www.wxpython.org/) to play sounds when
+users are detected/lost.
+
+
+## Using Handyplex:
+First start OSCeleton in hand mode (from the directory in which it was built):
+
+    $ ./OSCeleton -f -n
+
+Then run Handyplex:
+
+    $ python handyplex.py
