@@ -1,3 +1,9 @@
+Version 0.11 (2012/01/03)
+-------------------------------------------------------------------------------
+    * Added functionality to launch OSCeleton when Handyplex starts, and exit
+      gracefully when Handyplex is terminated.
+    * Slight tweaks for quicker repeat actions.
+
 Version 0.1 (2011/12/01)
---------------------------------------------------
+-------------------------------------------------------------------------------
     * Initial version

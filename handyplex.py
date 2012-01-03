@@ -263,6 +263,7 @@ def main(argv):
     # Call OSCeleton
     osceleton = Popen([os.path.join(settings.OSCELETON_PATH, 'osceleton'),
         '-n', '-f'])
+
     p = Handyplex(settings.PLEX_SERVER_IP, settings.PLEX_CLIENT_NAME)
 
 if __name__ == "__main__":

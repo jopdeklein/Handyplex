@@ -5,9 +5,10 @@ playback commands such as Play/Pause, Volume Up/Down and Fast-Forward/Rewind.
 
 See Handyplex in action: http://www.youtube.com/watch?v=wFM7pVMLIY4
 
-Handyplex is currently a proof of concept and thus far has only been tested on
-Mac OS X 10.6.8 (Snow Leopard) running Plex 0.9.3.4, but since all used libraries
-are cross-platform, it should run on other platforms too.
+Handyplex is currently a proof of concept and thus far has been tested
+successfully on Mac OS X 10.6.8 (Snow Leopard) running Plex 0.9.3.4, and
+Mac OS X 10.7 (Lion) running Plex 0.9.5.2 (Laika). Since all used libraries are
+cross-platform, it should run on other platforms too.
 
 Due to the experimental state of Handyplex one needs to be adept with the command
 line to build and install dependencies, but hopefully the following instructions
@@ -54,14 +55,15 @@ Edit the following lines of settings.py accordingly:
     PLEX_SERVER_IP = '10.0.1.1'
     PLEX_CLIENT_NAME = 'mini.local'
 
+For Handyplex to start OSCeleton you'll need to specify the directory where
+the executable resides:
+
+    OSCELETON_PATH = '/Users/mini/Development/OSCeleton'
+
 
 ## Using Handyplex
 Make sure Plex is running, and the Kinect is connected via USB and is
 receiving power.
-
-1. Run OSCeleton in 'hand mode':
-
-        $ ./osceleton -n -f
 
 1. Run Handyplex:
 
@@ -116,14 +118,14 @@ functionality (run in tests directory):
 
 ## Known Issues
 * Since there currently is no 'stop gesture recognition' command, you need to
-  hide your hand (behind your back for example) in order to stop gesture 
+  hide your hand (behind your back for example) in order to stop gesture
   recognition.
 * Sometimes a gesture is not recognized with a small movements, move your
   hand in a exaggerated motion to one direction to reset.
 
 ## Future Plans
 * Implement a gesture for ending further gesture recognition until
-  user re-initializes session with 'wave'. 
+  user re-initializes session with 'wave'.
 * Have PlexController send key commands instead of using the HTTP API
   for more flexibility.
 * Use NITE's gesture recognition instead of the current Python

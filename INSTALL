@@ -2,8 +2,8 @@
 
 Although a bit daunting looking at first, fortunately my experience with
 installing the drivers and middleware have been good - everything worked out of
-the box on my Snow Leopard machine. The following are the steps I took to get 
-it working on Mac OS X Snow Leopard, but in theory it should work on Lion as well.
+the box on my Snow Leopard machine. The following are the steps I took to get
+things working on Mac OS X Snow Leopard and Mac OS X Lion.
 
 For each of the following required projects I assume you will clone them in a
 directory, eg: ~/Kinect and build them from source from the directory you
@@ -82,10 +82,6 @@ users are detected/lost.
 
 
 ## Using Handyplex:
-First start OSCeleton in hand mode (from the directory in which it was built):
-
-    $ ./OSCeleton -f -n
-
 Then run Handyplex:
 
     $ python handyplex.py
