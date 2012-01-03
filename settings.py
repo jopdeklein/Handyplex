@@ -1,7 +1,9 @@
 # Host where Plex Media Server is running
-PLEX_SERVER_IP = '10.0.1.3'
+PLEX_SERVER_IP = '10.0.1.10'
 # Computer name where Plex Client is running
 PLEX_CLIENT_NAME = 'mini.local'
+# Path to OSCeleton
+OSCELETON_PATH = '/Users/mini/Development/OSCeleton'
 
 # Gesture Threshold Configuration for each GestureDetector
 THRESHOLDS = {

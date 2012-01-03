@@ -20,6 +20,9 @@
 
 import sys
 import settings
+import signal
+import os
+from subprocess import Popen
 from OSCeleton import OSCeleton, Skeleton, LEFT_HAND
 from gesturedetector.swipedetector import SwipeDetector
 from gesturedetector.movementdetector import MovementDetector
@@ -34,6 +37,8 @@ try:
     has_audio_support = True
 except ImportError:
     pass
+
+osceleton = None # Handle to osceleton process
 
 last_message = ''
 def print_once(msg):
@@ -198,9 +203,9 @@ class Handyplex:
         elif delta < 0.20:
             repeat_interval = 10
         elif delta < 0.40:
-            repeat_interval = 5
-        else:
             repeat_interval = 3
+        else:
+            repeat_interval = 1
 
         if self.repeat_count > repeat_interval:
             self.pc.perform_gesture_action(self.last_gesture)
@@ -241,10 +246,23 @@ class Handyplex:
             sound.Play(wx.SOUND_SYNC)
 
 
+def signal_handler(signal, frame):
+    """Graceful exit if user presses Ctrl+C"""
+    global osceleton
+    print 'Exiting, thanks for using Handyplex!'
+    osceleton.terminate()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
 def main(argv):
+    global osceleton
     if has_audio_support:
         wx.PySimpleApp()
 
+    # Call OSCeleton
+    osceleton = Popen([os.path.join(settings.OSCELETON_PATH, 'osceleton'),
+        '-n', '-f'])
     p = Handyplex(settings.PLEX_SERVER_IP, settings.PLEX_CLIENT_NAME)
 
 if __name__ == "__main__":
