@@ -246,14 +246,22 @@ class Handyplex:
             sound.Play(wx.SOUND_SYNC)
 
 
-def signal_handler(signal, frame):
-    """Graceful exit if user presses Ctrl+C"""
+def cleanup():
+    """Graceful exit if application quits"""
     global osceleton
     print 'Exiting, thanks for using Handyplex!'
     osceleton.terminate()
     sys.exit(0)
 
+def signal_handler(signal, frame):
+    cleanup()
+
 signal.signal(signal.SIGINT, signal_handler)
+
+def except_hook(type, value, tb):
+    cleanup()
+
+sys.excepthook = except_hook
 
 def main(argv):
     global osceleton

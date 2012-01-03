@@ -40,10 +40,10 @@ class PlexController:
         try:
             self._detect_mode()
         except EnvironmentError:
-            print ("FATAL ERROR: Could not connect to Plex, make sure Plex "
+            print ("ERROR: Could not connect to Plex, make sure Plex "
                    "Media Server and Plex Client are running. Verify that "
                    "settings in settings.py are correct.")
-            sys.exit(1)
+            # sys.exit(1)
 
     def perform_gesture_action(self, gesture):
         """
