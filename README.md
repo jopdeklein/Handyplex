@@ -20,7 +20,7 @@ To use Handyplex you'll need the following:
 * Mac OS X Snow Leopard (other platforms might work, depending on
   OpenNI/Nite support)
 * Python 2.7
-* Plex (tested with 0.9.3.4)
+* Plex (tested with 0.9.3.4 and 0.9.5.2)
 * OSCeleton and it's dependencies
 
 Hardware:
